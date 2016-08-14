@@ -40,6 +40,7 @@ class SettingAdmin extends AwaresoftAbstractAdmin
             ->add('info')
             ->add('enabled')
             ->add('fields')
+            ->add('runMethod')
             ->add('deletable');
 
         if ($this->isGranted('ROLE_SUPER_ADMIN')) {
@@ -124,6 +125,11 @@ class SettingAdmin extends AwaresoftAbstractAdmin
                 ]);
         }
 
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $formMapper
+                ->add('runMethod');
+        }
+
         $formMapper
             ->end();
 
@@ -149,9 +155,7 @@ class SettingAdmin extends AwaresoftAbstractAdmin
     /**
      * Prevent before security issue
      *
-     * @param Setting $object
-     *
-     * @return mixed|void
+     * @inheritdoc
      */
     public function preUpdate($object)
     {
@@ -170,9 +174,7 @@ class SettingAdmin extends AwaresoftAbstractAdmin
     /**
      * Prevent before security issue
      *
-     * @param Setting $object
-     *
-     * @return mixed|void
+     * @inheritdoc
      */
     public function prePersist($object)
     {
@@ -180,6 +182,34 @@ class SettingAdmin extends AwaresoftAbstractAdmin
             $object->setDeletable(Setting::DEFAULT_DELETABLE);
             $object->setHidden(Setting::DEFAULT_HIDDEN);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function postPersist($object)
+    {
+        if ($object->getRunMethod()) {
+            $tmp = explode('::', $object->getRunMethod());
+            $checkBracket = strpos($tmp[1], '(') !== false ? strpos($tmp[1], '(') : false;
+            if ($checkBracket) {
+                $tmp[1] = str_replace(substr($tmp[1], $checkBracket), '', $tmp[1]);
+            }
+
+            if (count($tmp) === 2) {
+                call_user_func([$tmp[0], $tmp[1]], $object, $this->getConfigurationPool()->getContainer());
+            } else {
+                $object->setRunMethod(null);
+            }
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function postUpdate($object)
+    {
+        self::postPersist($object);
     }
 
     /**

@@ -90,10 +90,17 @@ class Setting
     protected $hidden;
 
     /**
-     * @ORM\OneToMany(targetEntity="Awaresoft\SettingBundle\Entity\SettingHasFields", mappedBy="setting", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    protected $runMethod;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Awaresoft\SettingBundle\Entity\SettingHasField", mappedBy="setting", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="setting_id", referencedColumnName="id", onDelete="CASCADE")
      *
-     * @var SettingHasFields[]|ArrayCollection
+     * @var SettingHasField[]|ArrayCollection
      */
     protected $fields;
 
@@ -254,7 +261,7 @@ class Setting
     }
 
     /**
-     * @return SettingHasFields[]|ArrayCollection
+     * @return SettingHasField[]|ArrayCollection
      */
     public function getFields()
     {
@@ -262,7 +269,7 @@ class Setting
     }
 
     /**
-     * @param SettingHasFields[] $fields
+     * @param SettingHasField[] $fields
      *
      * @return $this
      */
@@ -278,14 +285,37 @@ class Setting
     }
 
     /**
-     * @param SettingHasFields $field
+     * @param SettingHasField $field
      */
-    public function addField(SettingHasFields $field)
+    public function addField(SettingHasField $field)
     {
         $field->setSetting($this);
         $this->fields[] = $field;
     }
 
+    /**
+     * @return string
+     */
+    public function getRunMethod()
+    {
+        return $this->runMethod;
+    }
+
+    /**
+     * @param string $runMethod
+     *
+     * @return Setting
+     */
+    public function setRunMethod($runMethod)
+    {
+        $this->runMethod = $runMethod;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getName();

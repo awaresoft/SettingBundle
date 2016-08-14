@@ -9,12 +9,12 @@ services:
             - AwaresoftSettingBundle:SettingCRUD
 
     awaresoft.setting.admin.setting.fields:
-        class: Awaresoft\SettingBundle\Admin\SettingHasFieldsAdmin
+        class: Awaresoft\SettingBundle\Admin\SettingHasFieldAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: setting.admin.menu_group_settings, label: setting.admin.menu.settings_fields }
         arguments:
             - null
-            - Awaresoft\SettingBundle\Entity\SettingHasFields
+            - Awaresoft\SettingBundle\Entity\SettingHasField
             - null
 
     awaresoft.setting.admin.advancedsetting:

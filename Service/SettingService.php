@@ -31,7 +31,7 @@ class SettingService extends ContainerAware
      * @param $fieldName
      * @param null $hidden
      *
-     * @return \Awaresoft\SettingBundle\Entity\SettingHasFields|null
+     * @return \Awaresoft\SettingBundle\Entity\SettingHasField|null
      * @throws \Exception
      */
     public function getField($name, $fieldName, $hidden = null)
@@ -54,10 +54,10 @@ class SettingService extends ContainerAware
     }
 
     /**
-     * @return \Awaresoft\SettingBundle\Entity\Repository\SettingHasFieldsRepository
+     * @return \Awaresoft\SettingBundle\Entity\Repository\SettingHasFieldRepository
      */
     protected function getSettingFieldRepository()
     {
-        return $this->container->get('doctrine.orm.entity_manager')->getRepository('AwaresoftSettingBundle:SettingHasFields');
+        return $this->container->get('doctrine.orm.entity_manager')->getRepository('AwaresoftSettingBundle:SettingHasField');
     }
 }
