@@ -1,0 +1,8 @@
+setting:
+    admin:
+        help:
+            info: Information can be changed only by admins.
+        menu:
+            settings: Settings
+            settings_fields: Settings fields
+            settings_hidden: Advanced settings

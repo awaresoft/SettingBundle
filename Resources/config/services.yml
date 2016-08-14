@@ -1,0 +1,5 @@
+services:
+    awaresoft.setting:
+        class: Awaresoft\SettingBundle\Service\SettingService
+        calls:
+            - [ setContainer, [@service_container]]

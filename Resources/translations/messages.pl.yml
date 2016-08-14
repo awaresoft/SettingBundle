@@ -1,0 +1,8 @@
+setting:
+    admin:
+        help:
+            info: Informacje o ustawieniu mogą być zmieniane tylko przez administratorów.
+        menu:
+            settings: Ustawienia
+            settings_fields: Pola ustawień
+            settings_hidden: Zaawansowane ustawienia

@@ -1,0 +1,27 @@
+services:
+    awaresoft.setting.admin.setting:
+        class: Awaresoft\SettingBundle\Admin\SettingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: setting.admin.menu_group_settings, label: setting.admin.menu.settings }
+        arguments:
+            - null
+            - Awaresoft\SettingBundle\Entity\Setting
+            - AwaresoftSettingBundle:SettingCRUD
+
+    awaresoft.setting.admin.setting.fields:
+        class: Awaresoft\SettingBundle\Admin\SettingHasFieldsAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: setting.admin.menu_group_settings, label: setting.admin.menu.settings_fields }
+        arguments:
+            - null
+            - Awaresoft\SettingBundle\Entity\SettingHasFields
+            - null
+
+    awaresoft.setting.admin.advancedsetting:
+        class: Awaresoft\SettingBundle\Admin\SettingHiddenAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: setting.admin.menu_group_settings, label: setting.admin.menu.settings_hidden }
+        arguments:
+            - null
+            - Awaresoft\SettingBundle\Entity\Setting
+            - AwaresoftSettingBundle:SettingCRUD
