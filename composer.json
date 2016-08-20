@@ -1,5 +1,5 @@
 {
-    "name": "awaresoft/SettingBundle",
+    "name": "awaresoft/setting-bundle",
     "type": "symfony-bundle",
     "description": "Symfony Awaresoft SettingBundle with Sonata libraries",
     "require": {
