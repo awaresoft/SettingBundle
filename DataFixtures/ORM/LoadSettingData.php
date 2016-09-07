@@ -73,7 +73,7 @@ class LoadSettingData extends AwaresoftAbstractFixture
         $settingField = new SettingHasField();
         $settingField->setSetting($setting);
         $settingField->setName('COOKIES');
-        $settingField->setInfo('Site information about cookies. If setting is publicated, website will display infomation about cookies from value field.');
+        $settingField->setInfo('If setting is enabled, website will display information about cookies.');
         $settingField->setEnabled(true);
         $manager->persist($settingField);
 
