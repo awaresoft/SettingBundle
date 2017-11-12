@@ -253,6 +253,10 @@ class SettingHasField
      */
     public function __toString()
     {
+        if (!$this->name) {
+            return '';
+        }
+
         return $this->name;
     }
 }

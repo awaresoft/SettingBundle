@@ -157,6 +157,23 @@ class SettingAdmin extends AwaresoftAbstractAdmin
      *
      * @inheritdoc
      */
+    public function prePersist($object)
+    {
+        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
+            $object->setDeletable(Setting::DEFAULT_DELETABLE);
+            $object->setHidden(Setting::DEFAULT_HIDDEN);
+        }
+
+        if ($object->getRunMethod()) {
+            $this->prepareRunMethod($object);
+        }
+    }
+
+    /**
+     * Prevent before security issue
+     *
+     * @inheritdoc
+     */
     public function preUpdate($object)
     {
         $oldObject = $this->getSettingRepository()->find($object->getId());
@@ -169,47 +186,10 @@ class SettingAdmin extends AwaresoftAbstractAdmin
         if ($this->isGranted('ROLE_SUPER_ADMIN')) {
             $this->updateCollection();
         }
-    }
 
-    /**
-     * Prevent before security issue
-     *
-     * @inheritdoc
-     */
-    public function prePersist($object)
-    {
-        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
-            $object->setDeletable(Setting::DEFAULT_DELETABLE);
-            $object->setHidden(Setting::DEFAULT_HIDDEN);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function postPersist($object)
-    {
         if ($object->getRunMethod()) {
-            $tmp = explode('::', $object->getRunMethod());
-            $checkBracket = strpos($tmp[1], '(') !== false ? strpos($tmp[1], '(') : false;
-            if ($checkBracket) {
-                $tmp[1] = str_replace(substr($tmp[1], $checkBracket), '', $tmp[1]);
-            }
-
-            if (count($tmp) === 2) {
-                call_user_func([$tmp[0], $tmp[1]], $object, $this->getConfigurationPool()->getContainer());
-            } else {
-                $object->setRunMethod(null);
-            }
+            $this->prepareRunMethod($object);
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function postUpdate($object)
-    {
-        self::postPersist($object);
     }
 
     /**
@@ -220,4 +200,33 @@ class SettingAdmin extends AwaresoftAbstractAdmin
         return $this->configurationPool->getContainer()->get('doctrine.orm.entity_manager')->getRepository('AwaresoftSettingBundle:Setting');
     }
 
+    /**
+     * @param Setting $object
+     *
+     * @return void
+     */
+    protected function prepareRunMethod(Setting $object)
+    {
+        $tmp = explode('::', $object->getRunMethod());
+
+        if (!isset($tmp[1])) {
+            $object->setRunMethod(null);
+
+            return;
+        }
+
+        $checkBracket = strpos($tmp[1], '(') !== false ? strpos($tmp[1], '(') : false;
+
+        if ($checkBracket) {
+            $tmp[1] = str_replace(substr($tmp[1], $checkBracket), '', $tmp[1]);
+        }
+
+        if (count($tmp) === 2) {
+            call_user_func([$tmp[0], $tmp[1]], $object, $this->getConfigurationPool()->getContainer());
+
+            return;
+        }
+
+        $object->setRunMethod(null);
+    }
 }

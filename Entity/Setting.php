@@ -318,6 +318,10 @@ class Setting
      */
     public function __toString()
     {
+        if (!$this->name) {
+            return '';
+        }
+
         return $this->getName();
     }
 }
