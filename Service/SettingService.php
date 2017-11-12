@@ -2,18 +2,33 @@
 
 namespace Awaresoft\SettingBundle\Service;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Awaresoft\SettingBundle\Entity\Setting;
+use Doctrine\ORM\EntityManagerInterface;
 
-class SettingService extends ContainerAware
+class SettingService
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
+     * SettingService constructor.
+     *
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     */
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * Get setting by name
      *
      * @param $name
      * @param bool $hidden
      *
-     * @return Setting
+     * @return Setting|object
      */
     public function get($name, $hidden = null)
     {
@@ -39,7 +54,12 @@ class SettingService extends ContainerAware
         $settingField = $this->getSettingFieldRepository()->findFieldsBySetting($name, $fieldName, $hidden);
 
         if (!$settingField) {
-            throw new \Exception(sprintf('Setting which name %s and field is %s does not exists. Hidden = %d', $name, $fieldName, $hidden));
+            throw new \Exception(sprintf(
+                'Setting which name %s and field is %s does not exists. Hidden = %d',
+                $name,
+                $fieldName,
+                $hidden
+            ));
         }
 
         return $settingField;
@@ -50,7 +70,7 @@ class SettingService extends ContainerAware
      */
     protected function getSettingRepository()
     {
-        return $this->container->get('doctrine.orm.entity_manager')->getRepository('AwaresoftSettingBundle:Setting');
+        return $this->entityManager->getRepository('AwaresoftSettingBundle:Setting');
     }
 
     /**
@@ -58,6 +78,6 @@ class SettingService extends ContainerAware
      */
     protected function getSettingFieldRepository()
     {
-        return $this->container->get('doctrine.orm.entity_manager')->getRepository('AwaresoftSettingBundle:SettingHasField');
+        return $this->entityManager->getRepository('AwaresoftSettingBundle:SettingHasField');
     }
 }
