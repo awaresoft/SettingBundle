@@ -2,6 +2,7 @@
 
 namespace Awaresoft\SettingBundle\Admin;
 
+use Awaresoft\SettingBundle\Entity\Setting;
 use Sonata\AdminBundle\Form\FormMapper;
 
 /**
