@@ -3,7 +3,7 @@
 nbproject
 phpunit.xml
 build
-/Resources/doc/_build/*
+/src/Resources/doc/_build/*
 /vendor
 composer.lock
 composer.phar

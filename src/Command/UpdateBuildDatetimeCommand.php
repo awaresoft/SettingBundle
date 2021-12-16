@@ -2,8 +2,7 @@
 
 namespace Awaresoft\SettingBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Bartosz Malec <b.malec@awaresoft.pl>
  */
-class UpdateBuildDatetimeCommand extends ContainerAwareCommand
+class UpdateBuildDatetimeCommand extends Command
 {
     /**
      * Configuration of command
