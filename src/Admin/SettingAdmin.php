@@ -4,10 +4,12 @@ namespace Awaresoft\SettingBundle\Admin;
 
 use Awaresoft\Sonata\AdminBundle\Admin\AbstractAdmin as AwaresoftAbstractAdmin;
 use Awaresoft\SettingBundle\Entity\Setting;
+use Sonata\AdminBundle\Form\Type\CollectionType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
  * Settings visible for all admins
@@ -99,9 +101,7 @@ class SettingAdmin extends AwaresoftAbstractAdmin
             $disabled = false;
             $deletable = true;
         } else {
-            $formMapper->setHelps([
-                'info' => $this->trans('setting.admin.help.info'),
-            ]);
+            $formMapper->get('info')->setAttribute('help', $this->trans('setting.admin.help.info'));
         }
 
         $formMapper
@@ -111,7 +111,7 @@ class SettingAdmin extends AwaresoftAbstractAdmin
         $formMapper
             ->with($this->trans('admin.admin.form.group.main'))
             ->add('name')
-            ->add('info', 'textarea', [
+            ->add('info', TextareaType::class, [
                 'disabled' => $disabled,
             ])
             ->add('enabled', null, [
@@ -136,14 +136,11 @@ class SettingAdmin extends AwaresoftAbstractAdmin
         if ($this->getSubject() && $this->getSubject()->getId()) {
             $formMapper
                 ->with($this->trans('admin.admin.form.group.fields'))
-                ->add('fields', 'sonata_type_collection', [
+                ->add('fields', CollectionType::class, [
                     'required' => false,
                     'by_reference' => false,
                     'label' => false,
-                    'type_options' => [
-                        'delete' => $deletable,
-                    ],
-                    'btn_add' => $deletable,
+                    'allow_delete' => $deletable,
                 ], [
                     'edit' => 'inline',
                     'inline' => 'table',
@@ -197,7 +194,8 @@ class SettingAdmin extends AwaresoftAbstractAdmin
      */
     protected function getSettingRepository()
     {
-        return $this->configurationPool->getContainer()->get('doctrine.orm.entity_manager')->getRepository('AwaresoftSettingBundle:Setting');
+        return $this->container->get('doctrine.orm.entity_manager')
+            ->getRepository('AwaresoftSettingBundle:Setting');
     }
 
     /**

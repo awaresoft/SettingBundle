@@ -6,6 +6,7 @@ use Awaresoft\SettingBundle\Entity\SettingHasField;
 use Awaresoft\Sonata\AdminBundle\Admin\AbstractAdmin as AwaresoftAbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
  * @author Bartosz Malec <b.malec@awaresoft.pl>
@@ -54,7 +55,7 @@ class SettingHasFieldAdmin extends AwaresoftAbstractAdmin
         }
 
         $formMapper
-            ->add('info', 'textarea', [
+            ->add('info', TextareaType::class, [
                 'disabled' => $disabledInfo,
             ]);
     }

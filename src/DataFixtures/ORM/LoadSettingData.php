@@ -2,8 +2,8 @@
 
 namespace Awaresoft\SettingBundle\DataFixtures\ORM;
 
-use Awaresoft\Doctrine\Common\DataFixtures\AbstractFixture as AwaresoftAbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Awaresoft\DoctrineBundle\DataFixtures\AbstractFixture;
+use Doctrine\Persistence\ObjectManager;
 use Awaresoft\SettingBundle\Entity\Setting;
 use Awaresoft\SettingBundle\Entity\SettingHasField;
 
@@ -12,8 +12,15 @@ use Awaresoft\SettingBundle\Entity\SettingHasField;
  *
  * @author Bartosz Malec <b.malec@awaresoft.pl>
  */
-class LoadSettingData extends AwaresoftAbstractFixture
+class LoadSettingData extends AbstractFixture
 {
+    /**
+     * {@inheritDoc}
+     */
+    public static function getGroups(): array
+    {
+        return ['prod', 'dev'];
+    }
 
     /**
      * {@inheritDoc}
@@ -26,15 +33,7 @@ class LoadSettingData extends AwaresoftAbstractFixture
     /**
      * {@inheritDoc}
      */
-    public function getEnvironments()
-    {
-        return array('dev', 'prod');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function doLoad(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         // CONTACT
         $setting = new Setting();

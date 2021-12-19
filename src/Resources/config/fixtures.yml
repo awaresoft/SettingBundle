@@ -1,0 +1,3 @@
+services:
+    Awaresoft\SettingBundle\DataFixtures\ORM\LoadSettingData:
+        tags: ['doctrine.fixture.orm']
