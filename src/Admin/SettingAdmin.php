@@ -4,11 +4,11 @@ namespace Awaresoft\SettingBundle\Admin;
 
 use Awaresoft\Sonata\AdminBundle\Admin\AbstractAdmin as AwaresoftAbstractAdmin;
 use Awaresoft\SettingBundle\Entity\Setting;
-use Sonata\AdminBundle\Form\Type\CollectionType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
@@ -140,10 +140,10 @@ class SettingAdmin extends AwaresoftAbstractAdmin
                     'required' => false,
                     'by_reference' => false,
                     'label' => false,
-                    'allow_delete' => $deletable,
+                    'type_options' => ['delete' => $deletable],
                 ], [
                     'edit' => 'inline',
-                    'inline' => 'table',
+                    'inline' => 'table'
                 ])
                 ->end();
         }
@@ -220,7 +220,7 @@ class SettingAdmin extends AwaresoftAbstractAdmin
         }
 
         if (count($tmp) === 2) {
-            call_user_func([$tmp[0], $tmp[1]], $object, $this->getConfigurationPool()->getContainer());
+            call_user_func([$tmp[0], $tmp[1]], $object, $this->container);
 
             return;
         }

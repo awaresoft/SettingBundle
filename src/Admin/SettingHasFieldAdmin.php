@@ -7,6 +7,7 @@ use Awaresoft\Sonata\AdminBundle\Admin\AbstractAdmin as AwaresoftAbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * @author Bartosz Malec <b.malec@awaresoft.pl>
@@ -43,10 +44,10 @@ class SettingHasFieldAdmin extends AwaresoftAbstractAdmin
         }
 
         $formMapper
-            ->add('name', 'text', [
+            ->add('name', TextType::class, [
                 'disabled' => $disabledName,
             ])
-            ->add('value', 'text')
+            ->add('value', TextType::class)
             ->add('enabled');
 
         if ($this->isGranted('ROLE_SUPER_ADMIN')) {
@@ -102,7 +103,7 @@ class SettingHasFieldAdmin extends AwaresoftAbstractAdmin
         }
 
         if (count($tmp) === 2) {
-            call_user_func([$tmp[0], $tmp[1]], $object, $this->getConfigurationPool()->getContainer());
+            call_user_func([$tmp[0], $tmp[1]], $object, $this->container);
 
             return;
         }

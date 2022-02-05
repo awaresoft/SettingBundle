@@ -7,6 +7,8 @@ services:
             - null
             - Awaresoft\SettingBundle\Entity\Setting
             - AwaresoftSettingBundle:SettingCRUD
+        calls:
+            - [setContainer, ["@service_container"]]
 
     awaresoft.setting.admin.setting.fields:
         class: Awaresoft\SettingBundle\Admin\SettingHasFieldAdmin
@@ -16,6 +18,8 @@ services:
             - null
             - Awaresoft\SettingBundle\Entity\SettingHasField
             - null
+        calls:
+            - [setContainer, ["@service_container"]]
 
     awaresoft.setting.admin.advancedsetting:
         class: Awaresoft\SettingBundle\Admin\SettingHiddenAdmin
@@ -25,3 +29,5 @@ services:
             - null
             - Awaresoft\SettingBundle\Entity\Setting
             - AwaresoftSettingBundle:SettingCRUD
+        calls:
+            - [setContainer, ["@service_container"]]

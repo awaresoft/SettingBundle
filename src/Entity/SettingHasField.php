@@ -34,6 +34,7 @@ class SettingHasField
 
     /**
      * @ORM\ManyToOne(targetEntity="Awaresoft\SettingBundle\Entity\Setting", inversedBy="fields")
+     * @ORM\JoinColumn(name="setting_id", referencedColumnName="id", onDelete="CASCADE")
      *
      * @var Setting
      */

@@ -98,7 +98,6 @@ class Setting
 
     /**
      * @ORM\OneToMany(targetEntity="Awaresoft\SettingBundle\Entity\SettingHasField", mappedBy="setting", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="setting_id", referencedColumnName="id", onDelete="CASCADE")
      *
      * @var SettingHasField[]|ArrayCollection
      */
